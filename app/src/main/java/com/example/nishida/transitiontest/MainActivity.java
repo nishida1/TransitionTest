@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
             = "com.example.nishida.transitiontest.MESSAGE";
 
     private TextView textView;
-    static final int RESULT_SUBACTIVITY = 1000;
+    //static final int RESULT_SUBACTIVITY = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

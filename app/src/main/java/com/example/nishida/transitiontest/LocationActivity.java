@@ -42,6 +42,8 @@ import android.widget.ListView;
 import java.util.ArrayList;
 
 public class LocationActivity extends AppCompatActivity {
+
+    static final int RESULT_SUBACTIVITY = 1000;
     // Fused Location Provider API.
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -116,6 +118,17 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onClickWrite();
+            }
+        });
+
+        // 「カメラ」ボタン
+        Button buttonCamera = (Button) findViewById(R.id.button_camera);
+        buttonCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO カメラ画面からの戻り値を取得
+                Intent intent = new Intent(getApplication(), SubActivity.class);
+                startActivityForResult( intent, RESULT_SUBACTIVITY );
             }
         });
 
