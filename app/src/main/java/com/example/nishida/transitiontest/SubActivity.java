@@ -122,28 +122,6 @@ public class SubActivity extends AppCompatActivity {
             }
         });
 
-        // TODO MainActivityへの戻り値を設定する処理のサンプル start
-        /*
-        editText = findViewById(R.id.edit_text);
-        // back to MainActivity
-        Button button = findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                if (editText.getText() != null) {
-                    String str = editText.getText().toString();
-                    intent.putExtra(MainActivity.EXTRA_MESSAGE, str);
-                }
-
-                editText.setText("");
-
-                setResult(RESULT_OK, intent);
-
-                finish();
-            }
-        });
-        */
-        //TODO MainActivityへの戻り値を設定する処理のサンプル end
     }
 
 
@@ -179,8 +157,8 @@ public class SubActivity extends AppCompatActivity {
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
 
-            //撮影画像を保存する際のファイル名設定
-            filename = UUID.randomUUID().toString()+".jpg";
+            //撮影画像を保存する際のファイル名設定(ファイル名："test-XXXXXXXX-XXXX-XXXX.jpg")
+            filename = "test-"+UUID.randomUUID().toString()+".jpg";
             file = new File(Environment.getExternalStorageDirectory()+"/"+filename);
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
@@ -215,7 +193,6 @@ public class SubActivity extends AppCompatActivity {
                     try {
                         outputStream = new FileOutputStream(file);
                         outputStream.write(bytes);
-                        //TODO DBへの登録
                         Toast.makeText(SubActivity.this, "画像ファイル名:"+filename, Toast.LENGTH_SHORT).show();
                     } catch (Exception e){
                         e.printStackTrace();
@@ -234,7 +211,13 @@ public class SubActivity extends AppCompatActivity {
                     super.onCaptureCompleted(session, request, result);
                     //Toast.makeText(MainActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
                     createCameraPreview();
-                    //TODO 画面遷移
+
+                    // MainActivityへ画面遷移（撮影した画像ファイル名を返す）
+                    Intent intent = new Intent();
+                    intent.putExtra(MainActivity.EXTRA_MESSAGE, filename);
+                    setResult(RESULT_OK, intent);
+                    finish();
+
                 }
             };
 
