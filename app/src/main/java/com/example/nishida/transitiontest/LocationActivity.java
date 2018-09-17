@@ -98,7 +98,7 @@ public class LocationActivity extends AppCompatActivity {
         buildLocationSettingsRequest();
 
         textView = (TextView) findViewById(R.id.text_view);
-        textLog = "位置情報取得中...";
+        textLog = Common.WAITING;
         textView.setText(textLog);
 
         // 起動時に測位
@@ -130,8 +130,17 @@ public class LocationActivity extends AppCompatActivity {
         buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplication(), SubActivity.class);
-                startActivityForResult( intent, RESULT_SUBACTIVITY );
+
+                // validation
+                String test = (String)textView.getText();
+                if(Common.WAITING.equals(test)){
+                    Toast.makeText(LocationActivity.this, "" +
+                            "位置情報の更新をおこなってからカメラを起動してください", Toast.LENGTH_LONG).show();
+                } else {
+                    Intent intent = new Intent(getApplication(), SubActivity.class);
+                    startActivityForResult( intent, RESULT_SUBACTIVITY );
+                }
+
             }
         });
 
