@@ -126,7 +126,6 @@ public class LocationActivity extends AppCompatActivity {
         buttonCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO カメラ画面からの戻り値を取得
                 Intent intent = new Intent(getApplication(), SubActivity.class);
                 startActivityForResult( intent, RESULT_SUBACTIVITY );
             }
@@ -284,6 +283,15 @@ public class LocationActivity extends AppCompatActivity {
                 }
                 break;
         }
+
+        // TODO SubActivity からの返しの結果を受け取る
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK && requestCode == RESULT_SUBACTIVITY &&
+                null != data) {
+            String res = data.getStringExtra(MainActivity.EXTRA_MESSAGE);
+            textView.setText(res);
+        }
+
     }
 
     // FusedLocationApiによるlocation updatesをリクエスト
