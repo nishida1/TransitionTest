@@ -17,7 +17,7 @@
     <Button
         style="@style/Widget.AppCompat.Button.Colored"
         android:id="@+id/btnCapture"
-        android:text="撮　影"
+        android:text="撮影してリストに戻る"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

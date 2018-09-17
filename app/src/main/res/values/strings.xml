@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">あ TransitionTest</string>
+    <string name="locate">位置情報の更新</string>
+    <string name="save">保存</string>
+    <string name="camera">カメラ</string>
     <string name="main">Main Activity</string>
     <string name="sub">Sub Activity</string>
     <string name="hint1">Message to Sub</string>

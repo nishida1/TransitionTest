@@ -158,6 +158,7 @@ public class SubActivity extends AppCompatActivity {
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
 
             //撮影画像を保存する際のファイル名設定(ファイル名："test-XXXXXXXX-XXXX-XXXX.jpg")
+            //同名のファイル名を設定した場合は上書きされる
             filename = "test-"+UUID.randomUUID().toString()+".jpg";
             file = new File(Environment.getExternalStorageDirectory()+"/"+filename);
 

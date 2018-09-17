@@ -23,29 +23,32 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.text_view);
+        locationPermission();
 
+        /*
+        textView = findViewById(R.id.text_view);
         final EditText editText= findViewById(R.id.edit_text);
 
+        //SubActivity への Intent
         Button button = findViewById(R.id.button);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), SubActivity.class);
-                /*
-                if(editText.getText() != null){
-                    String str = editText.getText().toString();
-                    intent.putExtra(EXTRA_MESSAGE, str);
-                }
-                */
                 startActivityForResult( intent, RESULT_SUBACTIVITY );
-
                 // in order to clear the edittext
                 editText.setText("");
             }
         });
+        */
+    }
+
+    private void locationPermission() {
+        Intent intent = new Intent(getApplication(), LocationPermission.class);
+        startActivity(intent);
     }
 
     // SubActivity からの返しの結果を受け取る
+    /*
     protected void onActivityResult( int requestCode, int resultCode, Intent intent) {
         super.onActivityResult(requestCode, resultCode, intent);
 
@@ -55,4 +58,5 @@ public class MainActivity extends AppCompatActivity {
             textView.setText(res);
         }
     }
+    */
 }
