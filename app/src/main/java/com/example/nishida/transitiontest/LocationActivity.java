@@ -57,6 +57,7 @@ public class LocationActivity extends AppCompatActivity {
     private String lastUpdateTime;
     private String latitude; //緯度
     private String longitude; //経度
+    private String reserved; //撮影画像
 
     private Boolean requestingLocationUpdates;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
@@ -136,7 +137,7 @@ public class LocationActivity extends AppCompatActivity {
     // 「保存」ボタン
     public void onClickWrite() {
         try {
-            DBUtil.writeDB(lastUpdateTime, latitude, longitude, "", db);
+            DBUtil.writeDB(lastUpdateTime, latitude, longitude, reserved, db);
             dbitems = DBUtil.readDB(dbitems, db);
             setList();
         } catch (Exception e) {
@@ -195,7 +196,7 @@ public class LocationActivity extends AppCompatActivity {
         if (dbitems != null) {
             for (int i = 0; i < dbitems.size(); i++){
                 AdapterItem item = dbitems.get(i);
-                arrayList.add("測位日時：　"+item.lastdate+"\n緯　度　：　"+item.latitude+"\n経　度　：　"+item.longitude);
+                arrayList.add("測位日時：　"+item.lastdate+"\n緯　度　：　"+item.latitude+"\n経　度　：　"+item.longitude+"\n撮影画像：　"+item.reserved);
             }
         }
 
@@ -284,12 +285,15 @@ public class LocationActivity extends AppCompatActivity {
                 break;
         }
 
-        // TODO SubActivity からの返しの結果を受け取る
+        // SubActivity からの返しの結果を受け取る
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode == RESULT_OK && requestCode == RESULT_SUBACTIVITY &&
                 null != data) {
             String res = data.getStringExtra(MainActivity.EXTRA_MESSAGE);
-            textView.setText(res);
+            //textView.setText(res);
+            reserved = res;
+            // DB登録処理
+            onClickWrite();
         }
 
     }
