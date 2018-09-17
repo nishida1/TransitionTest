@@ -1,70 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="#fde"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    tools:context=".SubActivity">
 
-    <TextView
-        android:text="@string/sub"
-        android:textSize="24sp"
+    <TextureView
+        android:id="@+id/textureView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="40dp" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/btnCapture"
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="@string/from_main"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/text_view"
-            android:textSize="24sp"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:text="@string/to_main"
-            android:textSize="24sp" />
-
-        <EditText
-            android:id="@+id/edit_text"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:background="#fff"
-            android:hint="@string/hint2"
-            android:textSize="24sp" />
-
-    </LinearLayout>
+        />
 
     <Button
-        android:id="@+id/button"
-        android:text="@string/back"
-        android:textSize="24sp"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:id="@+id/btnCapture"
+        android:text="撮　影"
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:layout_margin="20dp" />
+        android:layout_height="wrap_content" />
 
-</LinearLayout>
+</RelativeLayout>
