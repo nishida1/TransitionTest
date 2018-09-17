@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     // the key constant
     public static final String EXTRA_MESSAGE
 //            = "com.example.testactivitytrasdata.MESSAGE";
-            = "YourPackageName.MESSAGE";
+            = "com.example.nishida.transitiontest.MESSAGE";
 
     private TextView textView;
     static final int RESULT_SUBACTIVITY = 1000;
@@ -31,10 +31,12 @@ public class MainActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplication(), SubActivity.class);
+                /*
                 if(editText.getText() != null){
                     String str = editText.getText().toString();
                     intent.putExtra(EXTRA_MESSAGE, str);
                 }
+                */
                 startActivityForResult( intent, RESULT_SUBACTIVITY );
 
                 // in order to clear the edittext

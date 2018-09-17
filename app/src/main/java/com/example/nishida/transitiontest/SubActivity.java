@@ -19,11 +19,13 @@ public class SubActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sub);
 
         // to get message from MainActivity
+        /*
         Intent intent = getIntent();
         message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
 
         TextView textView = findViewById(R.id.text_view);
         textView.setText(message);
+        */
 
         editText = findViewById(R.id.edit_text);
 
@@ -33,7 +35,7 @@ public class SubActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 if (editText.getText() != null) {
-                    String str = message + editText.getText().toString();
+                    String str = editText.getText().toString();
                     intent.putExtra(MainActivity.EXTRA_MESSAGE, str);
                 }
 
