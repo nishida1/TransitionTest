@@ -114,13 +114,16 @@ public class LocationActivity extends AppCompatActivity {
         });
 
         // 「保存」ボタン
+        /*
         Button buttonSave = (Button) findViewById(R.id.button_save);
+        buttonSave.setVisibility(View.GONE);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onClickWrite();
             }
         });
+        */
 
         // 「カメラ」ボタン
         Button buttonCamera = (Button) findViewById(R.id.button_camera);
