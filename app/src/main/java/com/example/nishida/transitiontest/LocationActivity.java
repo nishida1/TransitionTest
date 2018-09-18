@@ -221,32 +221,51 @@ public class LocationActivity extends AppCompatActivity {
         // TODO
         List<ListImageViewItem> list = new ArrayList<ListImageViewItem>();
 
-        for (int i = 1; i < 6; i++) {
-            ListImageViewItem item = new ListImageViewItem();
-            item.setText("アイテム\n" + i);
+        if (dbitems != null) {
+            for (int i = 0; i < dbitems.size(); i++){
+                AdapterItem item = dbitems.get(i);
+                ListImageViewItem viewitem = new ListImageViewItem();
+                /*
+                viewitem.setText(
+                        " 撮影日時： "+item.currentdt +
+                                "\n 撮影画像： "+item.reserved +
+                                "\n 測位日時： "+item.lastdate+
+                                "\n 緯　度　： "+item.latitude+
+                                "\n 経　度　： "+item.longitude
+                );
+                */
 
-            File file = new File(Environment.getExternalStorageDirectory()+"/test.jpg");
+                viewitem.setText(
+                        "  撮影日時： "+item.currentdt +
+                                "\n  撮影画像： "+item.reserved +
+                                "\n  緯　度　： "+item.latitude+
+                                "\n  経　度　： "+item.longitude
+                );
 
-            try(InputStream inputStream0 =
-                        new FileInputStream(file); ) {
+                File file = new File(Environment.getExternalStorageDirectory()+"/"+item.reserved);
+
+                try(InputStream inputStream0 =
+                            new FileInputStream(file); ) {
 
 
-                Bitmap bitmap = BitmapFactory.decodeStream(inputStream0);
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream0);
 
-                // 縮小処理
-                BitmapFactory.Options imageOptions = new BitmapFactory.Options();
-                bitmap = Bitmap.createScaledBitmap(bitmap, 480, 480, true);
+                    // 縮小処理
+                    BitmapFactory.Options imageOptions = new BitmapFactory.Options();
+                    bitmap = Bitmap.createScaledBitmap(bitmap, 480, 480, true);
 
-                //imageView.setImageBitmap(bitmap);
+                    //imageView.setImageBitmap(bitmap);
 
-                item.setBitmap(bitmap);
+                    viewitem.setBitmap(bitmap);
 
-            } catch (IOException e) {
-                e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                //item.setImageId(R.drawable.ic_launcher);
+                list.add(viewitem);
+
             }
-
-            //item.setImageId(R.drawable.ic_launcher);
-            list.add(item);
         }
 
         // adapterのインスタンスを作成
@@ -255,7 +274,6 @@ public class LocationActivity extends AppCompatActivity {
 
         lv = (ListView) findViewById(R.id.listItems);
         lv.setAdapter(adapter);
-
 
 
         /* text only

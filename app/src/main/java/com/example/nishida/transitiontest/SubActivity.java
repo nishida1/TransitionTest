@@ -116,7 +116,7 @@ public class SubActivity extends AppCompatActivity {
         String m2 = m1.replace("/", "");
         String m3 = m2.replace(":", "");
         String m4 = m3.replace(" ", "");
-        filename = m4.substring(4)+".jpg";
+        filename = "test"+m4.substring(4)+".jpg";
 
         textureView = (TextureView)findViewById(R.id.textureView);
         //From Java 1.4 , you can use keyword 'assert' to check expression true or false
