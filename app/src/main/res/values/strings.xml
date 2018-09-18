@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">あ TransitionTest</string>
+    <string name="app_name">GPS/Camera/SQLite3</string>
+    <string name="locate">位置情報の更新</string>
+    <string name="camera">カメラ</string>
 </resources>
