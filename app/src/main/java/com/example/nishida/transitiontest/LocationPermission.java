@@ -17,13 +17,14 @@ public class LocationPermission extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         if(Build.VERSION.SDK_INT >= 23){
             checkPermission();
         }
         else{
             locationActivity();
         }
+        finish();
     }
     // 位置情報許可の確認
     public void checkPermission() {
