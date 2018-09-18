@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class DBUtil {
 
     //TODO: TB
-    public static void writeDB(String lastdate, String latitude, String longitude, String reserved, SQLiteDatabase db) throws Exception {
+    public static void writeDB(String lastdate, String latitude, String longitude, String reserved, String currentdt, SQLiteDatabase db) throws Exception {
 
         Log.v("sqltest", lastdate);
         Log.v("sqltest", latitude);
@@ -20,12 +20,13 @@ public class DBUtil {
         values.put("latitude", latitude);
         values.put("longitude", longitude);
         values.put("reserved", reserved);
+        values.put("currentdt", currentdt);
         db.insert(Common.DB_TABLE, null, values);
     }
 
     public static ArrayList<AdapterItem> readDB(ArrayList<AdapterItem> dbitems, SQLiteDatabase db) throws Exception {
         dbitems = new ArrayList<AdapterItem>();
-        Cursor c = db.query(Common.DB_TABLE, new String[]{"id", "lastdate", "latitude", "longitude", "reserved"},
+        Cursor c = db.query(Common.DB_TABLE, new String[]{"id", "lastdate", "latitude", "longitude", "reserved", "currentdt"},
                 null, null, null, null, "id desc");
         if (c.moveToFirst()) {
             do {
@@ -37,6 +38,7 @@ public class DBUtil {
                 item.latitude = c.getString(2);
                 item.longitude = c.getString(3);
                 item.reserved = c.getString(4);
+                item.currentdt = c.getString(5);
                 dbitems.add(item);
             } while (c.moveToNext());
         }

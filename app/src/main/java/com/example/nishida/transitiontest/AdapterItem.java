@@ -6,4 +6,5 @@ public class AdapterItem {
     public String latitude;
     public String longitude;
     public String reserved;
+    public String currentdt;
 }

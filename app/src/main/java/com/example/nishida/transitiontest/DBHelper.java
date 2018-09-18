@@ -13,7 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table if not exists "+
-                Common.DB_TABLE+"(id integer primary key autoincrement,lastdate text,latitude text,longitude text,reserved text)");
+                Common.DB_TABLE+"(id integer primary key autoincrement,lastdate text,latitude text,longitude text,reserved text, currentdt text)");
     }
 
     @Override

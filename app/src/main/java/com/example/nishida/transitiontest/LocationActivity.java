@@ -153,7 +153,7 @@ public class LocationActivity extends AppCompatActivity {
     // 「保存」ボタン
     public void onClickWrite() {
         try {
-            DBUtil.writeDB(lastUpdateTime, latitude, longitude, reserved, db);
+            DBUtil.writeDB(lastUpdateTime, latitude, longitude, reserved, currentDt, db);
             dbitems = DBUtil.readDB(dbitems, db);
             setList();
         } catch (Exception e) {
@@ -212,7 +212,13 @@ public class LocationActivity extends AppCompatActivity {
         if (dbitems != null) {
             for (int i = 0; i < dbitems.size(); i++){
                 AdapterItem item = dbitems.get(i);
-                arrayList.add("測位日時：　"+item.lastdate+"\n緯　度　：　"+item.latitude+"\n経　度　：　"+item.longitude+"\n撮影画像：　"+item.reserved);
+                arrayList.add(
+                        "撮影日時：　"+item.currentdt +
+                        "\n撮影画像：　"+item.reserved +
+                        "\n測位日時：　"+item.lastdate+
+                        "\n緯　度　：　"+item.latitude+
+                        "\n経　度　：　"+item.longitude
+                );
             }
         }
 

@@ -24,7 +24,6 @@ public class LocationPermission extends AppCompatActivity {
         else{
             locationActivity();
         }
-        finish();
     }
     // 位置情報許可の確認
     public void checkPermission() {
@@ -80,5 +79,6 @@ public class LocationPermission extends AppCompatActivity {
     private void locationActivity() {
         Intent intent = new Intent(getApplication(), LocationActivity.class);
         startActivity(intent);
+        finish();
     }
 }
