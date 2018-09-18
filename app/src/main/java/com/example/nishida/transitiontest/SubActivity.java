@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import android.Manifest;
 import android.content.Context;
@@ -30,14 +28,12 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.Surface;
 import android.view.TextureView;
-import android.view.View;
-import android.widget.Button;
+
 import android.widget.Toast;
 
 import java.io.File;
@@ -49,7 +45,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 public class SubActivity extends AppCompatActivity {
 
@@ -70,12 +65,10 @@ public class SubActivity extends AppCompatActivity {
     private CameraCaptureSession cameraCaptureSessions;
     private CaptureRequest.Builder captureRequestBuilder;
     private Size imageDimension;
-    private ImageReader imageReader;
 
     //Save to FILE
     private File file;
     private static final int REQUEST_CAMERA_PERMISSION = 200;
-    private boolean mFlashSupported;
     private Handler mBackgroundHandler;
     private HandlerThread mBackgroundThread;
 
@@ -110,7 +103,7 @@ public class SubActivity extends AppCompatActivity {
         //縦固定
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // 撮影日時から保存ファイル名を生成
+        // 前画面からintentされた日時から保存ファイル名を生成
         Intent intent = getIntent();
         String m1 = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         String m2 = m1.replace("/", "");
@@ -167,9 +160,7 @@ public class SubActivity extends AppCompatActivity {
             int rotation = getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION,ORIENTATIONS.get(rotation));
 
-            //撮影画像を保存する際のファイル名設定(ファイル名："test-XXXXXXXX-XXXX-XXXX.jpg")
             //同名のファイル名を設定した場合は上書きされる
-            //filename = "test-"+UUID.randomUUID().toString()+".jpg";
             file = new File(Environment.getExternalStorageDirectory()+"/"+filename);
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
@@ -182,7 +173,6 @@ public class SubActivity extends AppCompatActivity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
-
                     }
                     catch (FileNotFoundException e)
                     {
@@ -204,10 +194,8 @@ public class SubActivity extends AppCompatActivity {
                     try {
                         outputStream = new FileOutputStream(file);
                         outputStream.write(bytes);
-                        Toast.makeText(SubActivity.this, "画像ファイル名:"+filename, Toast.LENGTH_SHORT).show();
                     } catch (Exception e){
                         e.printStackTrace();
-                        Toast.makeText(SubActivity.this, "メディアファイルへのアクセスが許可されていないため撮影画像の保存ができません", Toast.LENGTH_LONG).show();
                     }finally {
                         if(outputStream != null)
                             outputStream.close();
@@ -220,10 +208,9 @@ public class SubActivity extends AppCompatActivity {
                 @Override
                 public void onCaptureCompleted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, @NonNull TotalCaptureResult result) {
                     super.onCaptureCompleted(session, request, result);
-                    //Toast.makeText(MainActivity.this, "Saved "+file, Toast.LENGTH_SHORT).show();
                     createCameraPreview();
 
-                    // MainActivityへ画面遷移（撮影した画像ファイル名を返す）
+                    // MainActivityへ戻る（撮影した画像ファイル名を返す）
                     Intent intent = new Intent();
                     intent.putExtra(MainActivity.EXTRA_MESSAGE, filename);
                     setResult(RESULT_OK, intent);
@@ -383,5 +370,5 @@ public class SubActivity extends AppCompatActivity {
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
-
+    
 }

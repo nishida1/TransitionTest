@@ -45,14 +45,12 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import android.database.sqlite.SQLiteDatabase;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import java.util.ArrayList;
 import java.util.List;
 
 public class LocationActivity extends AppCompatActivity {
 
     static final int RESULT_SUBACTIVITY = 1000;
+
     // Fused Location Provider API.
     private FusedLocationProviderClient fusedLocationClient;
 
@@ -77,7 +75,6 @@ public class LocationActivity extends AppCompatActivity {
 
     private SQLiteDatabase db;
     private ArrayList<AdapterItem> dbitems;
-    ArrayAdapter<String> adapter;
 
     private ListView lv;
 
@@ -125,18 +122,6 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
 
-        // 「保存」ボタン
-        /*
-        Button buttonSave = (Button) findViewById(R.id.button_save);
-        buttonSave.setVisibility(View.GONE);
-        buttonSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClickWrite();
-            }
-        });
-        */
-
         // 「カメラ」ボタン
         Button buttonCamera = (Button) findViewById(R.id.button_camera);
         buttonCamera.setOnClickListener(new View.OnClickListener() {
@@ -150,7 +135,7 @@ public class LocationActivity extends AppCompatActivity {
                             "位置情報の更新をおこなってからカメラを起動してください", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(getApplication(), SubActivity.class);
-                    // 撮影日時をカメラ画面に渡す
+                    // 撮影日時をカメラに渡す
                     currentDt = DateFormat.getDateTimeInstance().format(new Date());
                     intent.putExtra(MainActivity.EXTRA_MESSAGE, currentDt);
                     startActivityForResult( intent, RESULT_SUBACTIVITY );
@@ -161,7 +146,7 @@ public class LocationActivity extends AppCompatActivity {
 
     }
 
-    // 「保存」ボタン
+    // DB登録処理
     public void onClickWrite() {
         try {
             DBUtil.writeDB(lastUpdateTime, latitude, longitude, reserved, currentDt, db);
@@ -215,25 +200,15 @@ public class LocationActivity extends AppCompatActivity {
 
     }
 
-    //TODO SQLite to ViewList
+    // SQL to ViewList
     private void setList() {
 
-        // TODO
         List<ListImageViewItem> list = new ArrayList<ListImageViewItem>();
 
         if (dbitems != null) {
             for (int i = 0; i < dbitems.size(); i++){
                 AdapterItem item = dbitems.get(i);
                 ListImageViewItem viewitem = new ListImageViewItem();
-                /*
-                viewitem.setText(
-                        " 撮影日時： "+item.currentdt +
-                                "\n 撮影画像： "+item.reserved +
-                                "\n 測位日時： "+item.lastdate+
-                                "\n 緯　度　： "+item.latitude+
-                                "\n 経　度　： "+item.longitude
-                );
-                */
 
                 viewitem.setText(
                         "  撮影日時： "+item.currentdt +
@@ -242,29 +217,17 @@ public class LocationActivity extends AppCompatActivity {
                                 "\n  経　度　： "+item.longitude
                 );
 
-                File file = new File(Environment.getExternalStorageDirectory()+"/"+item.reserved);
-
+                //撮影画像
+                File file = new File
+                        (Environment.getExternalStorageDirectory()+"/"+item.reserved);
                 try(InputStream inputStream0 =
                             new FileInputStream(file); ) {
-
-
                     Bitmap bitmap = BitmapFactory.decodeStream(inputStream0);
-
-                    // 縮小処理
-                    BitmapFactory.Options imageOptions = new BitmapFactory.Options();
-                    bitmap = Bitmap.createScaledBitmap(bitmap, 480, 480, true);
-
-                    //imageView.setImageBitmap(bitmap);
-
                     viewitem.setBitmap(bitmap);
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
-                //item.setImageId(R.drawable.ic_launcher);
                 list.add(viewitem);
-
             }
         }
 
@@ -274,31 +237,6 @@ public class LocationActivity extends AppCompatActivity {
 
         lv = (ListView) findViewById(R.id.listItems);
         lv.setAdapter(adapter);
-
-
-        /* text only
-        ListView lv = (ListView)findViewById(R.id.listItems);
-        ArrayList<String> arrayList = new ArrayList<>();
-
-        if (dbitems != null) {
-            for (int i = 0; i < dbitems.size(); i++){
-                AdapterItem item = dbitems.get(i);
-                arrayList.add(
-                        "撮影日時：　"+item.currentdt +
-                        "\n撮影画像：　"+item.reserved +
-                        "\n測位日時：　"+item.lastdate+
-                        "\n緯　度　：　"+item.latitude+
-                        "\n経　度　：　"+item.longitude
-                );
-            }
-        }
-
-        adapter = new ArrayAdapter<>(
-                LocationActivity.this,
-                android.R.layout.simple_list_item_1,
-                arrayList);
-        lv.setAdapter(adapter);
-        */
 
     }
 
@@ -350,7 +288,6 @@ public class LocationActivity extends AppCompatActivity {
     private void buildLocationSettingsRequest() {
         LocationSettingsRequest.Builder builder =
                 new LocationSettingsRequest.Builder();
-
         builder.addLocationRequest(locationRequest);
         locationSettingsRequest = builder.build();
     }
@@ -379,12 +316,10 @@ public class LocationActivity extends AppCompatActivity {
         if(resultCode == RESULT_OK && requestCode == RESULT_SUBACTIVITY &&
                 null != data) {
             String res = data.getStringExtra(MainActivity.EXTRA_MESSAGE);
-            //textView.setText(res);
             reserved = res;
             // DB登録処理
             onClickWrite();
         }
-
     }
 
     // FusedLocationApiによるlocation updatesをリクエスト
@@ -408,7 +343,7 @@ public class LocationActivity extends AppCompatActivity {
                                         Manifest.permission.ACCESS_COARSE_LOCATION) !=
                                         PackageManager.PERMISSION_GRANTED) {
 
-                                    // TODO: Consider calling
+                                    // Consider calling
                                     //    ActivityCompat#requestPermissions
                                     // here to request the missing permissions, and then overriding
                                     //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
@@ -448,26 +383,20 @@ public class LocationActivity extends AppCompatActivity {
                                 Log.e("debug", errorMessage);
                                 Toast.makeText(LocationActivity.this,
                                         errorMessage, Toast.LENGTH_LONG).show();
-
                                 requestingLocationUpdates = false;
                         }
-
                     }
                 });
-
         requestingLocationUpdates = true;
     }
 
     private void stopLocationUpdates() {
-        //textLog += "onStop()\n";
         textView.setText(textLog);
-
         if (!requestingLocationUpdates) {
             Log.d("debug", "stopLocationUpdates: " +
                     "updates never requested, no-op.");
             return;
         }
-
         fusedLocationClient.removeLocationUpdates(locationCallback)
                 .addOnCompleteListener(this,
                         new OnCompleteListener<Void>() {

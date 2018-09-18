@@ -35,13 +35,10 @@ public class ImageArrayAdapter extends ArrayAdapter<ListImageViewItem> {
 
         ListImageViewItem item = this.items.get(position);
 
-        // テキストをセット
         TextView appInfoText = (TextView)view.findViewById(R.id.item_text);
         appInfoText.setText(item.getText());
 
-        // アイコンをセット
         ImageView appInfoImage = (ImageView)view.findViewById(R.id.item_image);
-        //appInfoImage.setImageResource(item.getImageId());
         appInfoImage.setImageBitmap(item.getBitmap());
 
         return view;

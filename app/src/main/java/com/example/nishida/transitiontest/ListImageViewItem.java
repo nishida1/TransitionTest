@@ -14,12 +14,6 @@ public class ListImageViewItem {
     public void setBitmap(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
-    public int getImageId() {
-        return imageId;
-    }
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
-    }
     public String getText() {
         return text;
     }

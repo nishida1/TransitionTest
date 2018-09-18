@@ -3,32 +3,13 @@ package com.example.nishida.transitiontest;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
-import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-
-import android.app.Activity;
-import android.os.Bundle;
-import android.widget.ListView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -53,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    // locationPermission に intent
     private void locationPermission() {
         Intent intent = new Intent(getApplication(), LocationPermission.class);
         startActivity(intent);
@@ -69,19 +51,19 @@ public class MainActivity extends AppCompatActivity {
         }
         // 拒否していた場合
         else{
-            requestLocationPermission();
+            requestStoragePermission();
         }
     }
 
     // 許可を求める
-    private void requestLocationPermission() {
+    private void requestStoragePermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             ActivityCompat.requestPermissions(MainActivity.this,
                     new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
                     REQUEST_PERMISSION);
         } else {
-            Toast toast = Toast.makeText(this, "メディアファイルへのアクセスを許可してください", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "アクセス許可がないと動作しません。再起動をおこないメディアファイルへのアクセスの許可をおこなってください。", Toast.LENGTH_LONG);
             toast.show();
 
             ActivityCompat.requestPermissions(this,
@@ -101,11 +83,9 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             } else {
                 // それでも拒否された時の対応
-                Toast toast = Toast.makeText(this, "メディアファイルへのアクセスを許可してください", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(this, "アクセス許可がないと動作しません。再起動をおこないメディアファイルへのアクセスの許可をおこなってください。", Toast.LENGTH_LONG);
                 toast.show();
             }
         }
     }
-
-
 }

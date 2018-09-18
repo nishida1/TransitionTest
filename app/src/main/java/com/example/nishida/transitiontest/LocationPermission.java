@@ -17,7 +17,6 @@ public class LocationPermission extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_main);
         if(Build.VERSION.SDK_INT >= 23){
             checkPermission();
         }
@@ -69,7 +68,7 @@ public class LocationPermission extends AppCompatActivity {
             } else {
                 // 拒否された時の対応
                 Toast toast = Toast.makeText(this,
-                        "位置情報へのアクセス許可がないと動作しません", Toast.LENGTH_SHORT);
+                        "位置情報へのアクセス許可がないと動作しません。再起動をおこない位置情報へのアクセスの許可をおこなってください。", Toast.LENGTH_LONG);
                 toast.show();
             }
         }
