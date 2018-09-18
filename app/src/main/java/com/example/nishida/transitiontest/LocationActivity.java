@@ -5,8 +5,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -33,6 +36,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -40,6 +48,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
+import java.util.List;
 
 public class LocationActivity extends AppCompatActivity {
 
@@ -69,6 +78,8 @@ public class LocationActivity extends AppCompatActivity {
     private SQLiteDatabase db;
     private ArrayList<AdapterItem> dbitems;
     ArrayAdapter<String> adapter;
+
+    private ListView lv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,6 +217,48 @@ public class LocationActivity extends AppCompatActivity {
 
     //TODO SQLite to ViewList
     private void setList() {
+
+        // TODO
+        List<ListImageViewItem> list = new ArrayList<ListImageViewItem>();
+
+        for (int i = 1; i < 6; i++) {
+            ListImageViewItem item = new ListImageViewItem();
+            item.setText("アイテム\n" + i);
+
+            File file = new File(Environment.getExternalStorageDirectory()+"/test.jpg");
+
+            try(InputStream inputStream0 =
+                        new FileInputStream(file); ) {
+
+
+                Bitmap bitmap = BitmapFactory.decodeStream(inputStream0);
+
+                // 縮小処理
+                BitmapFactory.Options imageOptions = new BitmapFactory.Options();
+                bitmap = Bitmap.createScaledBitmap(bitmap, 480, 480, true);
+
+                //imageView.setImageBitmap(bitmap);
+
+                item.setBitmap(bitmap);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            //item.setImageId(R.drawable.ic_launcher);
+            list.add(item);
+        }
+
+        // adapterのインスタンスを作成
+        ImageArrayAdapter adapter =
+                new ImageArrayAdapter(this, R.layout.list_view_image_item, list);
+
+        lv = (ListView) findViewById(R.id.listItems);
+        lv.setAdapter(adapter);
+
+
+
+        /* text only
         ListView lv = (ListView)findViewById(R.id.listItems);
         ArrayList<String> arrayList = new ArrayList<>();
 
@@ -222,17 +275,13 @@ public class LocationActivity extends AppCompatActivity {
             }
         }
 
-        /*
-        for (int i = 0; i < 10; i++){
-            arrayList.add("test\ntest\ntest");
-        }
-        */
-
         adapter = new ArrayAdapter<>(
                 LocationActivity.this,
                 android.R.layout.simple_list_item_1,
                 arrayList);
         lv.setAdapter(adapter);
+        */
+
     }
 
     private void createLocationRequest() {
