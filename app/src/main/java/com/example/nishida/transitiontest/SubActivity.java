@@ -110,6 +110,14 @@ public class SubActivity extends AppCompatActivity {
         //縦固定
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        // 撮影日時から保存ファイル名を生成
+        Intent intent = getIntent();
+        String m1 = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String m2 = m1.replace("/", "");
+        String m3 = m2.replace(":", "");
+        String m4 = m3.replace(" ", "");
+        filename = m4.substring(4)+".jpg";
+
         textureView = (TextureView)findViewById(R.id.textureView);
         //From Java 1.4 , you can use keyword 'assert' to check expression true or false
         assert textureView != null;
@@ -159,7 +167,7 @@ public class SubActivity extends AppCompatActivity {
 
             //撮影画像を保存する際のファイル名設定(ファイル名："test-XXXXXXXX-XXXX-XXXX.jpg")
             //同名のファイル名を設定した場合は上書きされる
-            filename = "test-"+UUID.randomUUID().toString()+".jpg";
+            //filename = "test-"+UUID.randomUUID().toString()+".jpg";
             file = new File(Environment.getExternalStorageDirectory()+"/"+filename);
 
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {

@@ -54,10 +54,11 @@ public class LocationActivity extends AppCompatActivity {
     private LocationRequest locationRequest;
     private Location location;
 
-    private String lastUpdateTime;
+    private String lastUpdateTime; //測位日時
     private String latitude; //緯度
     private String longitude; //経度
     private String reserved; //撮影画像
+    private String currentDt; //撮影日時
 
     private Boolean requestingLocationUpdates;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
@@ -138,6 +139,9 @@ public class LocationActivity extends AppCompatActivity {
                             "位置情報の更新をおこなってからカメラを起動してください", Toast.LENGTH_LONG).show();
                 } else {
                     Intent intent = new Intent(getApplication(), SubActivity.class);
+                    // 撮影日時をカメラ画面に渡す
+                    currentDt = DateFormat.getDateTimeInstance().format(new Date());
+                    intent.putExtra(MainActivity.EXTRA_MESSAGE, currentDt);
                     startActivityForResult( intent, RESULT_SUBACTIVITY );
                 }
 
