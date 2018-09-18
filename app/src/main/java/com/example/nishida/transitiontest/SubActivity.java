@@ -370,5 +370,5 @@ public class SubActivity extends AppCompatActivity {
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
-    
+
 }
